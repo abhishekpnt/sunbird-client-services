@@ -71,6 +71,10 @@ export const InjectionTokens = {
             CERTIFICATE_SERVICE_API_PATH_LEGACY: Symbol.for('CERTIFICATE_SERVICE_API_PATH_LEGACY'),
             RC_API_PATH: Symbol.for('RC_API_PATH'),
             CERTIFICATE_SERVICE: Symbol.for('CERTIFICATE_SERVICE')
+        },
+        otp: {
+            OTP_SERVICE_API_PATH: Symbol.for('OTP_SERVICE_API_PATH'),
+            OTP_SERVICE: Symbol.for('OTP_SERVICE')
         }
     }
 };

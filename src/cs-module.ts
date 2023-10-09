@@ -30,6 +30,8 @@ import { CsNotificationService } from './services/notification/interface/cs-noti
 import { NotificationServiceImpl } from './services/notification/implementation/notification-service-impl';
 import { CsCertificateService } from './services/certificate';
 import { CertificateServiceImpl } from './services/certificate/implementation/certificate-service-impl';
+import { CsOtpService } from './services/otp';
+import { OtpServiceImpl } from './services/otp/implementation/otp-service-impl';
 
 export interface CsDiscussionServiceConfig {
     apiPath: string;
@@ -81,6 +83,10 @@ export interface CsCertificateServiceConfig {
     rcApiPath: string;
 }
 
+export interface CsOtpServiceConfig {
+    apiPath: string;
+}
+
 export interface CsConfig {
     core: {
         httpAdapter?: 'HttpClientBrowserAdapter' | 'HttpClientCordovaAdapter';
@@ -111,7 +117,9 @@ export interface CsConfig {
         discussionServiceConfig?: CsDiscussionServiceConfig,
         contentServiceConfig?: CsContentServiceConfig,
         notificationServiceConfig?: CsNotificationServiceConfig,
-        certificateServiceConfig?: CsCertificateServiceConfig
+        certificateServiceConfig?: CsCertificateServiceConfig,
+        otpServiceConfig?: CsOtpServiceConfig
+
     };
 }
 
@@ -188,6 +196,10 @@ export class CsModule {
 
     get certificateService(): CsCertificateService {
         return this._container.get<CsCertificateService>(InjectionTokens.services.certificate.CERTIFICATE_SERVICE);
+    }
+
+    get otpService(): CsOtpService {
+        return this._container.get<CsOtpService>(InjectionTokens.services.otp.OTP_SERVICE);
     }
 
     public async init(config: CsConfig, onConfigUpdate?: () => void, clientStorage?: CsClientStorage) {
@@ -358,6 +370,14 @@ export class CsModule {
                 this._container[mode]<string>(InjectionTokens.services.certificate.RC_API_PATH)
                 .toConstantValue(config.services.certificateServiceConfig.rcApiPath);
             }
+        }
+
+        // otpService
+        this._container[mode]<CsOtpService>(InjectionTokens.services.otp.OTP_SERVICE)
+            .to(OtpServiceImpl).inSingletonScope();
+        if (config.services.otpServiceConfig) {
+            this._container[mode]<string>(InjectionTokens.services.otp.OTP_SERVICE_API_PATH)
+                .toConstantValue(config.services.otpServiceConfig.apiPath);
         }
     }
 
