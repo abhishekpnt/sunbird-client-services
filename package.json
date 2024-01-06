@@ -20,7 +20,7 @@
     "inversify": "^5.0.1",
     "qs": "^6.9.4",
     "reflect-metadata": "^0.1.13",
-    "whatwg-fetch": "^3.1.0"
+    "whatwg-fetch": "^3.6.20"
   },
   "author": "",
   "license": "MIT",
